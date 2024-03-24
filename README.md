@@ -1,1 +1,1 @@
-# practise_IU5-23_graphical-calculator
+# practice_IU5-23_graphical-calculator
