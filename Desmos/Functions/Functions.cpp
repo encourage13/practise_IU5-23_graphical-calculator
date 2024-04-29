@@ -33,6 +33,7 @@ void Functions::set() {
 		Functions* pointer = new Logo(pa_el.second, sign);
 		cout << "Logo" << endl;
 		pointer->Find(pa_el.second);
+		delete pointer;
 
 	}
 	else if (pa_el.first.compare(0, 1, "x", 0, 1) == 0) {
@@ -41,22 +42,26 @@ void Functions::set() {
 			cout << "IRR" << endl;
 			Functions* pointer = new Irr(pa_el.second, sign);
 			pointer->Find(pa_el.second);
+			delete pointer;
 		}
 		else {
 			cout << "Stepennaya" << endl;
 			Functions* pointer = new Degree(pa_el.second, sign);
 			pointer->Find(pa_el.second);
+			delete pointer;
 		}
 	}
 	else if (flag) {
 		cout << "TRIG" << endl;
 		Functions* pointer = new Trig(pa_el.second, sign);
 		pointer->Find(pa_el.second);
+		delete pointer;
 	}
 	else if (flag1) {
 		cout << "Pokazatelnaya" << endl;
 		Functions* pointer = new Indct(pa_el.second, sign);
 		pointer->Find(pa_el.second);
+		delete pointer;
 	}
 	else {
 		cout << "value" << endl;
@@ -129,4 +134,15 @@ string Functions::Defi(string func) {
 	else {
 		return "Не удалось извлечь аргумент из функции.";
 	}
+}
+
+double Functions::Calculate(double x, string save) {
+	double y = x + 5;
+	return y;
+}
+double Functions::log_base_a(double x, double a) {
+	if (a > 0) {
+
+	}
+	return std::log(x) / std::log(a);
 }

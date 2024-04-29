@@ -8,8 +8,33 @@ Indct::Indct(string func, bool sign) {
 	this->sign = sign;
 }
 void Indct::Find(string func) {
+	bool flag = false;
 	auto it = func.begin();
 	if (*it == '-' || *it == '1') { return; }
 	string argument = this->Defi(func);
 	cout << "Аргумент показательной: " << argument << endl;
+	if (*it == 'e') { flag = true; }
+	string osn;
+	osn.push_back(*it);
+	string save = argument;
+	for (double x = -10; x < 10.1; x += 0.1) {
+		double y = Calculate(x, save);
+			Cord ss;
+			if (flag == false) {
+				double a = stod(osn);
+				double y1 = pow(a,y);
+				ss.x = x;
+				ss.y = y1;
+				cd.push_back(ss);
+			}
+			else {
+				double y1 = exp(y);
+				ss.x = x;
+				ss.y = y1;
+				cd.push_back(ss);
+			}
+	}
+	for (const auto& it : cd) {
+		cout << "X: " << it.x << "   Y: " << it.y << endl;
+	}
 }

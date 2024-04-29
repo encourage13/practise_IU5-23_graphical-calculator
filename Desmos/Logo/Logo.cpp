@@ -13,7 +13,38 @@ void Logo::Find(string func) {
 	it += 3;
 	if (*it == '1' || *it == '0') { return; }
 	if (*it == 'e') flag = true;
+	string osn;
+	osn.push_back(*it);
 	string argument = this->Defi(func);
 	cout << "Аргумент логарифма: " << argument << endl;
 	//       Продолжить
+	string save = argument;
+	int index = 0;
+	for (int i=0;i<save.size(); i++) {
+		if (save[i] == 'x') {
+			index = i;
+		}
+	}
+	for (double x = -10; x < 10.1; x += 0.1) {
+		double y = Calculate(x, save);
+		if (y > 0) {
+			Cord ss;
+			if (flag == false) {
+				double a = stod(osn);
+				double y1 = log_base_a(y, a);
+				ss.x = x;
+				ss.y = y1;
+				cd.push_back(ss);
+			}
+			else {
+				double y1 = log(y);
+				ss.x = x;
+				ss.y = y1;
+				cd.push_back(ss);
+			}	
+		}
+	}
+	for (const auto& it : cd) {
+		cout << "X: " << it.x << "   Y: " << it.y << endl;
+	}
 }
