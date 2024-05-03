@@ -10,7 +10,7 @@ Indct::Indct(string func, bool sign) {
 void Indct::Find(string func) {
 	bool flag = false;
 	auto it = func.begin();
-	if (*it == '-' || *it == '1') { return; }
+	if (*it == '-' || *it == '1') { return; } // Исправить для 1.6666
 	string argument = this->Defi(func);
 	cout << "Аргумент показательной: " << argument << endl;
 	if (*it == 'e') { flag = true; }

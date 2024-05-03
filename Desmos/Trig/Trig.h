@@ -6,6 +6,8 @@ public:
 	Trig(string func, bool sign);
 	~Trig() override {}
 	void Find(string func) override;
+	double cot(double x);
+	double acot(double x);
 private:
 	vector<Cord> cd;
 	string func;

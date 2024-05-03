@@ -32,5 +32,5 @@ public:
 	pair<string, string> detectMathFunction(const string& str);
 	string Defi(string func);
 	double Calculate(double x, string save);
-	double log_base_a(double x, double a);
+
 };

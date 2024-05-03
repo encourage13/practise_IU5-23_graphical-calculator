@@ -7,11 +7,17 @@ Logo::Logo(string func, bool sign) {
 	this->func = func;
 	this->sign = sign;
 }
+double Logo::log_base_a(double x, double a) {
+	if (a > 0) {
+		// проверка основания
+	}
+	return std::log(x) / std::log(a);
+}
 void Logo::Find(string func) {
 	bool flag = false;
 	auto it = func.begin();
 	it += 3;
-	if (*it == '1' || *it == '0') { return; }
+	if (*it == '1' || *it == '0') { return; } //  Исправить для 1.6666
 	if (*it == 'e') flag = true;
 	string osn;
 	osn.push_back(*it);
@@ -47,4 +53,5 @@ void Logo::Find(string func) {
 	for (const auto& it : cd) {
 		cout << "X: " << it.x << "   Y: " << it.y << endl;
 	}
+
 }

@@ -140,9 +140,4 @@ double Functions::Calculate(double x, string save) {
 	double y = x + 5;
 	return y;
 }
-double Functions::log_base_a(double x, double a) {
-	if (a > 0) {
 
-	}
-	return std::log(x) / std::log(a);
-}

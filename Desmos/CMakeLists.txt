@@ -6,7 +6,7 @@ set(SOURCES
         Functions/Functions.cpp
         Logo/Logo.cpp
         Indct/Indct.cpp
-        Desmos/Desmos.cpp
+        Desmos/main.cpp
         Irr/Irr.cpp
         Trig/Trig.cpp
         Degree/Degree.cpp
