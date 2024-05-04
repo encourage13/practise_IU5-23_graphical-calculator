@@ -7,65 +7,74 @@
 Functions::~Functions() {}
 void Functions::set() {
 	this->Casting();
-	/*for (const auto& tupleElem : vec) {
-		std::pair<std::string, std::string> pairElem = std::get<0>(tupleElem);
-		bool boolElem = std::get<1>(tupleElem);
-	}*/
-	auto tup_el = this->vec[0];
-	pair<string, string> pa_el = get<0>(tup_el);
-	bool sign = get<1>(tup_el);
-	string mas[] = { "sin","arcsin","arctg","arcctg","arccos","cos","tg","ctg" };
-	bool flag = false;
-	bool flag1 = false;
-	for (const string& element : mas) {
-		if (element == pa_el.first) {
-			flag = true;
-			break;
+	for (const auto& tup_el : vec) {
+		pair<string, string> pa_el = get<0>(tup_el);
+		bool sign = get<1>(tup_el);
+		string mas[] = { "sin","arcsin","arctg","arcctg","arccos","cos","tg","ctg" };
+		bool flag = false;
+		bool flag1 = false;
+		for (const string& element : mas) {
+			if (element == pa_el.first) {
+				flag = true;
+				break;
+			}
 		}
-	}
-	for (auto element = pa_el.second.begin(); element != pa_el.second.end(); element++) {
-		if (*element == '^') {
-			flag1 = true;
-			break;
+		for (auto element = pa_el.second.begin(); element != pa_el.second.end(); element++) {
+			if (*element == '^') {
+				flag1 = true;
+				break;
+			}
 		}
-	}
-	if (pa_el.first.compare(0, 3, "log", 0, 3) == 0) {
-		Functions* pointer = new Logo(pa_el.second, sign);
-		cout << "Logo" << endl;
-		pointer->Find(pa_el.second);
-		delete pointer;
-
-	}
-	else if (pa_el.first.compare(0, 1, "x", 0, 1) == 0) {
-		auto it = pa_el.second.begin();
-		if (*it == '(') {
-			cout << "IRR" << endl;
-			Functions* pointer = new Irr(pa_el.second, sign);
+		if (pa_el.first.compare(0, 3, "log", 0, 3) == 0) {
+			Functions* pointer = new Logo(pa_el.second, sign);
+			cout << "Logo" << endl;
+			pointer->Find(pa_el.second);
+			delete pointer;
+		}
+		else if (pa_el.first.compare(0, 1, "x", 0, 1) == 0) {
+			auto it = pa_el.second.begin();
+			if (*it == '(') {
+				cout << "IRR" << endl;
+				Functions* pointer = new Irr(pa_el.second, sign);
+				pointer->Find(pa_el.second);
+				delete pointer;
+			}
+			else {
+				cout << "Stepennaya" << endl;
+				Functions* pointer = new Degree(pa_el.second, sign);
+				pointer->Find(pa_el.second);
+				delete pointer;
+			}
+		}
+		else if (flag) {
+			cout << "TRIG" << endl;
+			Functions* pointer = new Trig(pa_el.second, sign);
+			pointer->Find(pa_el.second);
+			delete pointer;
+		}
+		else if (flag1) {
+			cout << "Pokazatelnaya" << endl;
+			Functions* pointer = new Indct(pa_el.second, sign);
 			pointer->Find(pa_el.second);
 			delete pointer;
 		}
 		else {
-			cout << "Stepennaya" << endl;
-			Functions* pointer = new Degree(pa_el.second, sign);
-			pointer->Find(pa_el.second);
-			delete pointer;
+			cout << "value" << endl;
+			double value = stod(pa_el.second);
+			cout << value << endl;
+			this->sum_value.push_back({ value, sign });
 		}
 	}
-	else if (flag) {
-		cout << "TRIG" << endl;
-		Functions* pointer = new Trig(pa_el.second, sign);
-		pointer->Find(pa_el.second);
-		delete pointer;
+}
+double Functions::SumValue() {
+	double value = 0;
+	for (auto pa_el : this->sum_value) {
+		if (pa_el.second == false) {
+			pa_el.first *= -1;
+		}
+		value += pa_el.first;
 	}
-	else if (flag1) {
-		cout << "Pokazatelnaya" << endl;
-		Functions* pointer = new Indct(pa_el.second, sign);
-		pointer->Find(pa_el.second);
-		delete pointer;
-	}
-	else {
-		cout << "value" << endl;
-	}
+	return value;
 }
 void Functions::Casting() {
 	setlocale(LC_ALL, "RUS");
@@ -136,8 +145,127 @@ string Functions::Defi(string func) {
 	}
 }
 
-double Functions::Calculate(double x, string save) {
-	double y = x + 5;
-	return y;
+double Functions::Calculate(double x, string func, int size) {
+	if (func[0] == 'e' && size == 1) {
+		return 2.71828;
+	}
+	if (func[0] == 'x' && size == 1) {
+		return x;
+	}
+	if (isdigit(func[0])) {
+		bool flag = true;
+		for (int i = 0; i < size; i++) {
+			if (!isdigit(func[i]) && (func[i] != '.'&& func[i] != ',')) {
+				flag = false;
+				break;
+			}
+		}
+		if (flag) {
+			return stod(func);
+		}
+	}
+	for (int i = 0; i < size; i++) {
+		if (func[i] == '+') {
+			return Calculate(x, &func[0], i) + Calculate(x, &func[i + 1], size - i - 1);
+		}
+		if (func[i] == '-') {
+			if (i == 0 || func[i - 1] == '(') {
+				return 0 - Calculate(x, &func[i + 1], size - i - 1);
+			}
+			else {
+				return Calculate(x, &func[0], i) - Calculate(x, &func[i + 1], size - i - 1);
+			}
+		}
+		if (func[i] == '(') {
+			int k = 1;
+			i++;
+			for (i; k > 0; i++) {
+				if (func[i] == ')') {
+					k--;
+				}
+				else if (func[i] == '(') {
+					k++;
+				}
+			}
+			i--;
+		}
+	}
+	for (int i = 0; i < size - 1; i++) {
+		if (func[i] == '*') {
+			return Calculate(x, &func[0], i) * Calculate(x, &func[i + 1], size - i - 1);
+		}
+		if (func[i] == '/') {
+			return Calculate(x, &func[0], i) / Calculate(x, &func[i + 1], size - i - 1);
+		}
+		if (func[i] == '(') {
+			int k = 1;
+			i++;
+			for (i; k > 0; i++) {
+				if (func[i] == ')') {
+					k--;
+				}
+				else if (func[i] == '(') {
+					k++;
+				}
+			}
+			i--;
+		}
+		//string mas = "*/^)";
+		if ((func[i] == 'x' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')')) || (func[i] == 'e' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')')) || (isdigit(func[i]) && ((func[i + 1] != '.' && func[i+1]!=',') && func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')' && !isdigit(func[i + 1]))) || (func[i] == ')' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')' && i != size - 1))) {
+			return Calculate(x, &func[0], i + 1) * Calculate(x, &func[i + 1], size - i - 1);
+		}
+	}
+	for (int i = 0; i < size; i++) {
+		if (func[i] == '^') {
+			if (func[i + 1] != '(') {
+				int j = 0;
+				for (j = i + 1; j < size; j++) {
+					if (!isdigit(func[j]) && (func[j] != '.' && func[j]!=',')) {
+						break;
+					}
+				}
+				return pow(Calculate(x, &func[0], i), Calculate(x, &func[i + 1], j - i - 1));
+			}
+			if (func[i + 1] == '(') {
+				int j;
+				int k = 1;
+				for (j = i + 2; k > 0; j++) {
+					if (func[j] == ')') {
+						k--;
+					}
+					else if (func[j] == '(') {
+						k++;
+					}
+				}
+				return pow(Calculate(x, &func[0], i), Calculate(x, &func[i + 1], j - i - 1));
+			}
+		}
+		if (func[i] == '(') {
+			int k = 1;
+			i++;
+			for (i; k > 0; i++) {
+				if (func[i] == ')') {
+					k--;
+				}
+				else if (func[i] == '(') {
+					k++;
+				}
+			}
+			i--;
+		}
+	}
+	if (func[0] == '(') {
+		return Calculate(x, &func[1], size - 2);
+	}
+	if (func[0] == 's' && func[1] == 'i' && func[2] == 'n') {
+		return sin(Calculate(x, &func[3], size - 3));
+	}
+	if (func[0] == 'c' && func[1] == 'o' && func[2] == 's') {
+		return cos(Calculate(x, &func[3], size - 3));
+	}
+	if (func[0] == 't' && func[1] == 'g') {
+		return tan(Calculate(x, &func[2], size - 2));
+	}
 }
+
 

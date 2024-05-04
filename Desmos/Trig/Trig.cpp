@@ -25,7 +25,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "sin") {
 		for (double x = -10; x < 10.1; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument,argument.size());
 			Cord ss;
 			double y1 = sin(y);
 			ss.x = x;
@@ -35,7 +35,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "cos") {
 		for (double x = -10; x < 10.1; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = cos(y);
 			ss.x = x;
@@ -45,7 +45,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "arcsin") {
 		for (double x = -10; x < 10; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument, argument.size());
 			if (y <= 1 && y >= -1) {
 				Cord ss;
 				double y1 = asin(y);
@@ -57,7 +57,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "arccos") {
 		for (double x = -10; x < 10 ; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument, argument.size());
 			if (y <= 1 && y >= -1) {
 				Cord ss;
 				double y1 = acos(y);
@@ -69,7 +69,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "arctg") {
 		for (double x = -10; x < 10.1; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = atan(y);
 			ss.x = x;
@@ -79,7 +79,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "arcctg") {
 		for (double x = -10; x < 10.1; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = acot(y);
 			ss.x = x;
@@ -89,7 +89,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "tg") {
 		for (double x = -10; x < 10.1; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = tan(y);            // Проверять на п/2 + п*n
 			ss.x = x;
@@ -99,7 +99,7 @@ void Trig::Find(string func) {
 	}
 	if (osn == "ctg") {
 		for (double x = -10; x < 10.1; x += 0.1) {
-			double y = Calculate(x, argument);
+			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = cot(y);            // Проверять на п*n
 			ss.x = x;
@@ -107,6 +107,7 @@ void Trig::Find(string func) {
 			cd.push_back(ss);
 		}
 	}
+	this->coordinates.push_back({ cd,sign });
 	for (const auto& it : cd) {
 		cout << "X: " << it.x << "   Y: " << it.y << endl;
 	}
