@@ -2,13 +2,12 @@
 #include "Functions.h"
 class Indct : public Functions {
 public:
-	Indct();
-	Indct(string func, bool sign);
+	Indct(std::string func, bool sign);
 	~Indct() override {}
-	void Find(string func) override;
+	void Find() override;
 private:
-	vector<Cord> cd;
-	string func;
+	std::vector<Cord> cd;
+	std::string func;
 	bool sign;
 
 

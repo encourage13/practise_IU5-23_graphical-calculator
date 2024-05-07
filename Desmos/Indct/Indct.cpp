@@ -1,22 +1,22 @@
 #include "Indct.h"
-Indct::Indct() {
-	this->sign = true;
-	this->func = "";
-}
+using namespace std;
+
 Indct::Indct(string func, bool sign) {
 	this->func = func;
 	this->sign = sign;
 }
-void Indct::Find(string func) {
+void Indct::Find() {
 	bool flag = false;
-	auto it = func.begin();
+	auto it = this->func.begin();
 	if (*it == '1' && *(it + 1) != '.' && *(it + 1) != ',') { return; }
 	if (*it == '-') { return; } 
-	string argument = this->Defi(func);
+	string argument = this->Defi(this->func);
 	cout << "Аргумент показательной: " << argument << endl;
 	if (*it == 'e') { flag = true; }
 	string osn;
-	osn.push_back(*it);
+	for (it; *it != '^'; it++) {
+		osn += *it;
+	}
 	for (double x = -10; x < 10.1; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 			Cord ss;

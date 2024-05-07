@@ -1,32 +1,30 @@
 #include "Irr.h"
-Irr::Irr() {
-	this->sign = true;
-	this->func = "";
-}
+using namespace std;
+
 Irr::Irr(string func, bool sign) {
 	this->func = func;
 	this->sign = sign;
 }
-void Irr::Find(string func) {
+void Irr::Find() {
 	bool flag = false;
-	string argument = this->Defi(func);
+	string argument = this->Defi(this->func);
 	cout << "Аргумент иррациональной: " << argument << endl;
 	int index = 0;
-	for (int i = 0; i != func.size(); i++) {
-		if (func[i] == '^') {
+	for (int i = 0; i != this->func.size(); i++) {
+		if (this->func[i] == '^') {
 			index = i;
 		}
 	}
 	index++;
 	string save;
-	for (index; index!=func.size(); index++) {
-		save += func[index];
+	for (index; index!=this->func.size(); index++) {
+		save += this->func[index];
 	}
 	for (double x = -10; x < 10.1; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
 		double a = stod(save);
-		double y1 = pow(y, a);   // корень четной степени из отриц числа 
+		double y1 = pow(y, a);    
 		ss.x = x;
 		ss.y = y1;
 		this->cd.push_back(ss);

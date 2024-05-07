@@ -1,8 +1,6 @@
 #include "Trig.h"
-Trig::Trig() {
-	this->sign = true;
-	this->func = "";
-}
+using namespace std;
+
 Trig::Trig(string func, bool sign) {
 	this->func = func;
 	this->sign = sign;
@@ -13,11 +11,11 @@ double Trig::cot(double x) {
 double Trig::acot(double x) {
 	return atan(1 / x);
 }
-void Trig::Find(string func) {
-	string argument = this->Defi(func);
+void Trig::Find() {
+	string argument = this->Defi(this->func);
 	cout << "Аргумент тригонометрической: " << argument << endl;
 	string osn;
-	for (auto it = func.begin(); it != func.end(); it++) {
+	for (auto it = this->func.begin(); it != this->func.end(); it++) {
 		if (*it == '(') {
 			break;
 		}

@@ -12,7 +12,6 @@ struct Cord {
 	double x;
 	double y;
 };
-using namespace std;
 class Logo;
 class Indct;
 class Trig;
@@ -22,17 +21,18 @@ class Irr;
 class Functions {
 
 protected:
-	vector<tuple<pair<string, string>, bool>> vec;
-	vector<pair<double,bool>> sum_value;
-	vector<pair<vector<Cord>, bool>> coordinates;
+	std::vector<std::tuple<std::pair<std::string, std::string>, bool>> vec;
+	std::vector<std::pair<double,bool>> sum_value;
+	std::vector<std::pair<std::vector<Cord>, bool>> coordinates;
 public:
-	virtual void Find(string func) = 0;
+	static Functions* Create(std::pair<std::string, std::string> pa_el, bool sign);
+	virtual void Find() = 0;
 	virtual ~Functions() = 0;
 	void set(); // íà âõîä str
 	void Casting(); //  íà âõîä str
-	vector<string> Split(const string& expression);
-	pair<string, string> detectMathFunction(const string& str);
-	string Defi(string func);
-	double Calculate(double x, string func,int size);
+	std::vector<std::string> Split(const std::string& expression);
+	std::pair<std::string, std::string> detectMathFunction(const std::string& str);
+	std::string Defi(std::string func);
+	double Calculate(double x, std::string func,int size);
 	double SumValue();
 };

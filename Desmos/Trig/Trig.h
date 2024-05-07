@@ -2,15 +2,14 @@
 #include "Functions.h"
 class Trig : public Functions {
 public:
-	Trig();
-	Trig(string func, bool sign);
+	Trig(std::string func, bool sign);
 	~Trig() override {}
-	void Find(string func) override;
+	void Find() override;
 	double cot(double x);
 	double acot(double x);
 private:
-	vector<Cord> cd;
-	string func;
+	std::vector<Cord> cd;
+	std::string func;
 	bool sign;
 
 

@@ -1,21 +1,38 @@
 #include "Degree.h"
-Degree::Degree() {
-	this->sign = true;
-	this->func = "";
-}
+using namespace std;
+
 Degree::Degree(string func, bool sign) {
 	this->func = func;
 	this->sign = sign;
 }
-void Degree::Find(string func) {
-	string argument = func;
-	cout << "Аргумент степенной: " << argument << endl;
+void Degree::Find() {
+	string argument;
+	bool flag = false;
+	auto it = this->func.begin();
+	if (*it == '|') {
+		flag = true;
+		it++;
+		for (it; *it != '|'; it++) {
+			argument += *it;
+		}
+	}
+	else{ argument = this->func; }
+	if(flag){ cout << "Аргумент модуля: " << argument << endl; }
+	else{ cout << "Аргумент степенной: " << argument << endl; }
 	for (double x = -10; x < 10.1; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
+		if (flag) {
+			double y1 = abs(y);
+			ss.x = x;
+			ss.y = y1;
+			this->cd.push_back(ss);
+		}
+		else {
 			ss.x = x;
 			ss.y = y;
 			this->cd.push_back(ss);
+		}
 	}
 	int j = this->cd.size();
 	for (int i = 0; i < j;) {

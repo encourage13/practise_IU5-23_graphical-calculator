@@ -4,12 +4,10 @@
 #include "Indct.h"
 #include "Trig.h"
 #include "Degree.h"
-Functions::~Functions() {}
-void Functions::set() {
-	this->Casting();
-	for (const auto& tup_el : this->vec) {
-		pair<string, string> pa_el = get<0>(tup_el);
-		bool sign = get<1>(tup_el);
+using namespace std;
+Functions* Functions::Create(std::pair<std::string, std::string> pa_el, bool sign) {
+	Functions* object = nullptr;
+	try {
 		string mas[] = { "sin","arcsin","arctg","arcctg","arccos","cos","tg","ctg" };
 		bool flag = false;
 		bool flag1 = false;
@@ -26,43 +24,53 @@ void Functions::set() {
 			}
 		}
 		if (pa_el.first.compare(0, 3, "log", 0, 3) == 0) {
-			Functions* pointer = new Logo(pa_el.second, sign);
 			cout << "Logo" << endl;
-			pointer->Find(pa_el.second);
-			delete pointer;
+			object = new Logo(pa_el.second, sign);
 		}
 		else if (pa_el.first.compare(0, 1, "x", 0, 1) == 0) {
 			auto it = pa_el.second.begin();
 			if (*it == '(') {
 				cout << "IRR" << endl;
-				Functions* pointer = new Irr(pa_el.second, sign);
-				pointer->Find(pa_el.second);
-				delete pointer;
+				object = new Irr(pa_el.second, sign);
 			}
 			else {
 				cout << "Stepennaya" << endl;
-				Functions* pointer = new Degree(pa_el.second, sign);
-				pointer->Find(pa_el.second);
-				delete pointer;
+				object = new Degree(pa_el.second, sign);
 			}
 		}
 		else if (flag) {
 			cout << "TRIG" << endl;
-			Functions* pointer = new Trig(pa_el.second, sign);
-			pointer->Find(pa_el.second);
-			delete pointer;
+			object = new Trig(pa_el.second, sign);
 		}
 		else if (flag1) {
 			cout << "Pokazatelnaya" << endl;
-			Functions* pointer = new Indct(pa_el.second, sign);
-			pointer->Find(pa_el.second);
-			delete pointer;
+			object = new Indct(pa_el.second, sign);
 		}
 		else {
+			return nullptr;
+		}
+	}
+	catch (invalid_argument& e) {
+		cerr << "Ошибка: " << e.what() << endl;
+	}
+	return object;
+}
+Functions::~Functions() {}
+void Functions::set() {
+	this->Casting();
+	for (const auto& tup_el : this->vec) {
+		pair<string, string> pa_el = get<0>(tup_el);
+		bool sign = get<1>(tup_el);
+		Functions* pointer = Functions::Create(pa_el, sign);
+		if (pointer == nullptr) {
 			cout << "value" << endl;
 			double value = stod(pa_el.second);
 			cout << value << endl;
 			this->sum_value.push_back({ value, sign });
+		}
+		else {
+			pointer->Find();
+			delete pointer;
 		}
 	}
 }
@@ -120,7 +128,6 @@ vector<string> Functions::Split(const string& expression) {
 }
 pair<string, string> Functions::detectMathFunction(const string& str) {
 	regex mathFunctionRegex("([a-zA-Z]+)|(\\d+(?:\\.\\d+)?)(\\^[0-9]+)?([a-zA-Z])?");
-
 	smatch match;
 	if (regex_search(str, match, mathFunctionRegex)) {
 		if (match[2].length() > 0 && match[4].length() > 0) {
@@ -144,7 +151,6 @@ string Functions::Defi(string func) {
 		return "Не удалось извлечь аргумент из функции.";
 	}
 }
-
 double Functions::Calculate(double x, string func, int size) {
 	if (func[0] == 'e' && size == 1) {
 		return 2.71828;

@@ -1,36 +1,31 @@
 #include "Logo.h"
+using namespace std;
+
 Logo::Logo() {
-	this->sign = true;
 	this->func = "";
+	this->sign = true;
 }
 Logo::Logo(string func, bool sign) {
 	this->func = func;
 	this->sign = sign;
 }
 double Logo::log_base_a(double x, double a) {
-	if (a > 0) {
-		// проверка основания
-	}
+	// нужна ли проверка основания?
 	return std::log(x) / std::log(a);
 }
-void Logo::Find(string func) {
+void Logo::Find() {
 	bool flag = false;
-	auto it = func.begin();
+	auto it = this->func.begin();
 	it += 3;
 	if (*it == '1' && *(it+1)!='.'&& *(it+1)!=',') { return; }
 	if (*it == '0') { return; } 
 	if (*it == 'e') flag = true;
 	string osn;
-	osn.push_back(*it);
-	string argument = this->Defi(func);
-	cout << "Аргумент логарифма: " << argument << endl;
-	//       Продолжить
-	int index = 0;
-	for (int i=0;i< argument.size(); i++) {
-		if (argument[i] == 'x') {
-			index = i;
-		}
+	for (it; *it != '('; it++) {
+		osn += *it;
 	}
+	string argument = this->Defi(this->func);
+	cout << "Аргумент логарифма: " << argument << endl;
 	for (double x = -10; x < 10.1; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		if (y > 0) {

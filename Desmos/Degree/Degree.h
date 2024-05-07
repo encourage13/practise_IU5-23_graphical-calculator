@@ -2,13 +2,12 @@
 #include "Functions.h"
 class Degree : public Functions {
 public:
-	Degree();
-	Degree(string func, bool sign);
+	Degree(std::string func, bool sign);
 	~Degree() override {}
-	void Find(string func) override;
+	void Find() override;
 private:
-	vector<Cord> cd;
-	string func;
+	std::vector<Cord> cd;
+	std::string func;
 	bool sign;
 
 
