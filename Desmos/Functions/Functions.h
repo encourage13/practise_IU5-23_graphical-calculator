@@ -28,8 +28,8 @@ protected:
 public:
 	virtual void Find(string func) = 0;
 	virtual ~Functions() = 0;
-	void set();
-	void Casting();
+	void set(); // íà âõîä str
+	void Casting(); //  íà âõîä str
 	vector<string> Split(const string& expression);
 	pair<string, string> detectMathFunction(const string& str);
 	string Defi(string func);

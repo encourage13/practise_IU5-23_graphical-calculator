@@ -10,13 +10,14 @@ Indct::Indct(string func, bool sign) {
 void Indct::Find(string func) {
 	bool flag = false;
 	auto it = func.begin();
-	if (*it == '-' || *it == '1') { return; } // Исправить для 1.6666
+	if (*it == '1' && *(it + 1) != '.' && *(it + 1) != ',') { return; }
+	if (*it == '-') { return; } 
 	string argument = this->Defi(func);
 	cout << "Аргумент показательной: " << argument << endl;
 	if (*it == 'e') { flag = true; }
 	string osn;
 	osn.push_back(*it);
-	for (double x = -10; x < 10.1; x += 0.1) {
+	for (double x = -10; x < 10.1; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			if (flag == false) {
@@ -24,17 +25,27 @@ void Indct::Find(string func) {
 				double y1 = pow(a,y);
 				ss.x = x;
 				ss.y = y1;
-				cd.push_back(ss);
+				this->cd.push_back(ss);
 			}
 			else {
 				double y1 = exp(y);
 				ss.x = x;
 				ss.y = y1;
-				cd.push_back(ss);
+				this->cd.push_back(ss);
 			}
 	}
-	this->coordinates.push_back({ cd,sign });
-	for (const auto& it : cd) {
+	int j = this->cd.size();
+	for (int i = 0; i < j;) {
+		if (isfinite(this->cd[i].y) == false) {
+			cd.erase(this->cd.begin() + i);
+			j--;
+		}
+		else {
+			i++;
+		}
+	}
+	this->coordinates.push_back({ this->cd,this->sign });
+	for (const auto& it : this->cd) {
 		cout << "X: " << it.x << "   Y: " << it.y << endl;
 	}
 }

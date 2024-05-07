@@ -7,7 +7,7 @@
 Functions::~Functions() {}
 void Functions::set() {
 	this->Casting();
-	for (const auto& tup_el : vec) {
+	for (const auto& tup_el : this->vec) {
 		pair<string, string> pa_el = get<0>(tup_el);
 		bool sign = get<1>(tup_el);
 		string mas[] = { "sin","arcsin","arctg","arcctg","arccos","cos","tg","ctg" };
@@ -265,6 +265,9 @@ double Functions::Calculate(double x, string func, int size) {
 	}
 	if (func[0] == 't' && func[1] == 'g') {
 		return tan(Calculate(x, &func[2], size - 2));
+	}
+	if (func[0] == 'a' && func[1] == 'b' && func[2] == 's') {
+		return abs(Calculate(x, &func[3], size - 3));
 	}
 }
 
