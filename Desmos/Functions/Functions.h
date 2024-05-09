@@ -8,6 +8,9 @@
 #include<tuple>
 #include <cmath>
 
+#define A -10
+#define B 10.125
+
 struct Cord {
 	double x;
 	double y;
@@ -24,15 +27,17 @@ protected:
 	std::vector<std::tuple<std::pair<std::string, std::string>, bool>> vec;
 	std::vector<std::pair<double,bool>> sum_value;
 	std::vector<std::pair<std::vector<Cord>, bool>> coordinates;
+	friend std::vector<Cord> Get(std::string func);
 public:
 	static Functions* Create(std::pair<std::string, std::string> pa_el, bool sign);
-	virtual void Find() = 0;
+	virtual void Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) = 0;
 	virtual ~Functions() = 0;
-	void set(); // íà âõîä str
-	void Casting(); //  íà âõîä str
+	void set(std::string func); 
+	void Casting(std::string func); 
 	std::vector<std::string> Split(const std::string& expression);
 	std::pair<std::string, std::string> detectMathFunction(const std::string& str);
 	std::string Defi(std::string func);
 	double Calculate(double x, std::string func,int size);
 	double SumValue();
 };
+std::vector<Cord> Get(std::string func);

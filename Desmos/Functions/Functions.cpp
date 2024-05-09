@@ -56,8 +56,8 @@ Functions* Functions::Create(std::pair<std::string, std::string> pa_el, bool sig
 	return object;
 }
 Functions::~Functions() {}
-void Functions::set() {
-	this->Casting();
+void Functions::set(string func) {
+	this->Casting(func);
 	for (const auto& tup_el : this->vec) {
 		pair<string, string> pa_el = get<0>(tup_el);
 		bool sign = get<1>(tup_el);
@@ -69,7 +69,7 @@ void Functions::set() {
 			this->sum_value.push_back({ value, sign });
 		}
 		else {
-			pointer->Find();
+			pointer->Find(this->coordinates);
 			delete pointer;
 		}
 	}
@@ -84,12 +84,12 @@ double Functions::SumValue() {
 	}
 	return value;
 }
-void Functions::Casting() {
+void Functions::Casting(string func) {
 	setlocale(LC_ALL, "RUS");
-	string str;
+	/*string str;
+	getline(std::cin, str);*/
 	bool sign;
-	getline(std::cin, str);
-	vector<string> elements = this->Split(str);
+	vector<string> elements = this->Split(func);
 	for (const auto& element : elements) {
 		cout << element << endl;
 	}
@@ -276,5 +276,10 @@ double Functions::Calculate(double x, string func, int size) {
 		return abs(Calculate(x, &func[3], size - 3));
 	}
 }
-
-
+vector<Cord> Get(string func) {
+	Functions* p  = Functions::Create(make_pair("log", "loge(2x)"), false);
+	p->set(func);
+	vector<Cord> vec1;
+	auto pa_el = p->coordinates[0];
+	return pa_el.first;
+}

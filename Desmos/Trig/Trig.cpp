@@ -11,7 +11,7 @@ double Trig::cot(double x) {
 double Trig::acot(double x) {
 	return atan(1 / x);
 }
-void Trig::Find() {
+void Trig::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	string argument = this->Defi(this->func);
 	cout << "Аргумент тригонометрической: " << argument << endl;
 	string osn;
@@ -22,7 +22,7 @@ void Trig::Find() {
 		osn += *it;
 	}
 	if (osn == "sin") {
-		for (double x = -10; x < 10.1; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument,argument.size());
 			Cord ss;
 			double y1 = sin(y);
@@ -32,7 +32,7 @@ void Trig::Find() {
 		}
 	}
 	if (osn == "cos") {
-		for (double x = -10; x < 10.1; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = cos(y);
@@ -42,7 +42,7 @@ void Trig::Find() {
 		}
 	}
 	if (osn == "arcsin") {
-		for (double x = -10; x < 10; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument, argument.size());
 			if (y <= 1 && y >= -1) {
 				Cord ss;
@@ -54,7 +54,7 @@ void Trig::Find() {
 		}
 	}
 	if (osn == "arccos") {
-		for (double x = -10; x < 10 ; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument, argument.size());
 			if (y <= 1 && y >= -1) {
 				Cord ss;
@@ -66,7 +66,7 @@ void Trig::Find() {
 		}
 	}
 	if (osn == "arctg") {
-		for (double x = -10; x < 10.1; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = atan(y);
@@ -76,7 +76,7 @@ void Trig::Find() {
 		}
 	}
 	if (osn == "arcctg") {
-		for (double x = -10; x < 10.1; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = acot(y);
@@ -86,7 +86,7 @@ void Trig::Find() {
 		}
 	}
 	if (osn == "tg") {
-		for (double x = -10; x < 10.1; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = tan(y);            
@@ -96,7 +96,7 @@ void Trig::Find() {
 		}
 	}
 	if (osn == "ctg") {
-		for (double x = -10; x < 10.1; x += 0.125) {
+		for (double x = A; x < B; x += 0.125) {
 			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = cot(y);            
@@ -115,10 +115,13 @@ void Trig::Find() {
 			i++;
 		}
 	}
-	this->coordinates.push_back({ this->cd,this->sign });
-	for (const auto& it : this->cd) {
-		cout << "X: " << it.x << "   Y: " << it.y << endl;
-	}
+	coordinates.push_back({ this->cd,this->sign });
+	/*for (auto pa_el : coordinates) {
+		std::vector<Cord> vec1 = pa_el.first;
+		for (auto elem : vec1) {
+			std::cout << elem.x << ' ';
+		}
+	}*/
 }
 
 

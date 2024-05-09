@@ -13,7 +13,7 @@ double Logo::log_base_a(double x, double a) {
 	// нужна ли проверка основания?
 	return std::log(x) / std::log(a);
 }
-void Logo::Find() {
+void Logo::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	bool flag = false;
 	auto it = this->func.begin();
 	it += 3;
@@ -26,7 +26,7 @@ void Logo::Find() {
 	}
 	string argument = this->Defi(this->func);
 	cout << "Аргумент логарифма: " << argument << endl;
-	for (double x = -10; x < 10.1; x += 0.125) {
+	for (double x = A; x < B; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		if (y > 0) {
 			Cord ss;
@@ -55,9 +55,12 @@ void Logo::Find() {
 			i++;
 		}
 	}
-	this->coordinates.push_back({ this->cd,this->sign });
-	for (const auto& it : this->cd) {
-		cout << "X: " << it.x << "   Y: " << it.y << endl;
-	}
+	coordinates.push_back({ this->cd,this->sign });
+	/*for (auto pa_el : coordinates) {
+		std::vector<Cord> vec1 = pa_el.first;
+		for (auto elem : vec1) {
+			std::cout << elem.x << ' ';
+		}
+	}*/
 
 }
