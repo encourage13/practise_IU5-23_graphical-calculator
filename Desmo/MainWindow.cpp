@@ -9,10 +9,8 @@
 std::vector<QPointF> calculat(const std::string& expression) {
     std::vector<QPointF> points;
                    
-    // Предполагаем, что функция calculateFunctionPoints уже реализована и возвращает std::vector<Cord>
     std::vector<Cord> cords = Get(expression);
 
-    // Конвертация каждого Cord в QPointF
     for (const auto& cord : cords) {
         points.emplace_back(cord.x, cord.y);
     }
@@ -23,7 +21,7 @@ std::vector<QPointF> calculat(const std::string& expression) {
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     QScreen* screen = QGuiApplication::primaryScreen();
     QRect screenSize = screen->availableGeometry();
-    resize(screenSize.width() * 0.8, screenSize.height() * 0.8); // Задаем размер окна как 80% от доступного размера экрана
+    resize(screenSize.width() * 0.8, screenSize.height() * 0.8); // Р—Р°РґР°РµРј СЂР°Р·РјРµСЂ РѕРєРЅР° РєР°Рє 80% РѕС‚ РґРѕСЃС‚СѓРїРЅРѕРіРѕ СЂР°Р·РјРµСЂР° СЌРєСЂР°РЅР°
 
     auto* widget = new QWidget();
     setCentralWidget(widget);
