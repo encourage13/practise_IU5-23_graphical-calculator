@@ -8,14 +8,14 @@ GraphWidget::GraphWidget(QWidget* parent) : QGraphicsView(parent) {
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     scene = new QGraphicsScene(this);
     setScene(scene);
-    buffer = QPixmap(1400, 1000); // Предполагаем начальный размер буфера
+    buffer = QPixmap(1400, 1000); // РџСЂРµРґРїРѕР»Р°РіР°РµРј РЅР°С‡Р°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°
     buffer.fill(Qt::white);
     bufferItem = new QGraphicsPixmapItem();
     scene->addItem(bufferItem);
     prepareBuffer();
     setDragMode(QGraphicsView::NoDrag);
 
-    qreal initialScale = 4;  // масштаб 
+    qreal initialScale = 4;  // РјР°СЃС€С‚Р°Р± 
     setTransform(QTransform::fromScale(initialScale, initialScale));
 }
 
@@ -27,7 +27,7 @@ void GraphWidget::drawGraph(const std::vector<QPointF>& points) {
     painter.setPen(pen);
     qreal centerX = buffer.width() / 2;
     qreal centerY = buffer.height() / 2;
-    int unit = 10;  // Размер одной клетки в пикселях, каждая клетка соответствует 1 на графике
+    int unit = 10;  // Р Р°Р·РјРµСЂ РѕРґРЅРѕР№ РєР»РµС‚РєРё РІ РїРёРєСЃРµР»СЏС…, РєР°Р¶РґР°СЏ РєР»РµС‚РєР° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ 1 РЅР° РіСЂР°С„РёРєРµ
     qreal offset = 0.5;
     if (points.size() > 1) {
         for (size_t i = 0; i < points.size() - 1; ++i) {
@@ -65,14 +65,13 @@ void GraphWidget::prepareBuffer() {
 }
 
 void GraphWidget::drawAxes(QPainter* painter) {
-    QPen pen(Qt::black, 1); // Установим черный цвет и увеличенную толщину линий
+    QPen pen(Qt::black, 1);
     painter->setPen(pen);
     int centerX = buffer.width() / 2;
     int centerY = buffer.height() / 2;
 
-    // Рисуем оси поверх сетки, убедившись, что они достаточно заметны
-    painter->drawLine(centerX, 0, centerX, buffer.height()); // Y-axis
-    painter->drawLine(0, centerY, buffer.width(), centerY);   // X-axis
+    painter->drawLine(centerX, 0, centerX, buffer.height()); 
+    painter->drawLine(0, centerY, buffer.width(), centerY);  
 }
 
 
@@ -81,14 +80,14 @@ void GraphWidget::drawGrid(QPainter* painter) {
     painter->setPen(pen);
     int centerX = buffer.width() / 2;
     int centerY = buffer.height() / 2;
-    int step = 10;  // Размер клетки в пикселях, каждая клетка соответствует 1 на графике
+    int step = 10;  // Р Р°Р·РјРµСЂ РєР»РµС‚РєРё РІ РїРёРєСЃРµР»СЏС…, РєР°Р¶РґР°СЏ РєР»РµС‚РєР° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ 1 РЅР° РіСЂР°С„РёРєРµ
 
-    // Рисуем вертикальные линии сетки
+
     for (int x = centerX % step; x < buffer.width(); x += step) {
         painter->drawLine(x, 0, x, buffer.height());
     }
 
-    // Рисуем горизонтальные линии сетки
+ 
     for (int y = centerY % step; y < buffer.height(); y += step) {
         painter->drawLine(0, y, buffer.width(), y);
     }
@@ -121,8 +120,8 @@ void GraphWidget::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void GraphWidget::wheelEvent(QWheelEvent* event) {
-    qreal scaleFactor = 1.1;  // Фактор масштабирования
-    // Определяем, увеличивать или уменьшать масштаб
+    qreal scaleFactor = 1.1;  // Р¤Р°РєС‚РѕСЂ РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёСЏ
+    // РћРїСЂРµРґРµР»СЏРµРј, СѓРІРµР»РёС‡РёРІР°С‚СЊ РёР»Рё СѓРјРµРЅСЊС€Р°С‚СЊ РјР°СЃС€С‚Р°Р±
     if (event->angleDelta().y() > 0) {
         scale(scaleFactor, scaleFactor);
     }
@@ -132,5 +131,5 @@ void GraphWidget::wheelEvent(QWheelEvent* event) {
 }
 
 void GraphWidget::updateScene() {
-    scene->update();  // Принудительное обновление сцены
+    scene->update();  
 }
