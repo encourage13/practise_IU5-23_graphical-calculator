@@ -20,7 +20,7 @@ protected:
     QGraphicsPixmapItem* bufferItem;
     QPoint lastMousePos;
     bool dragging;
-    qreal zoomFactor = 1.0;  // Изменено имя переменной
+    qreal zoomFactor = 1.0;  
 
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
