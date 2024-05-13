@@ -2,11 +2,11 @@
 #include "MainWindow.h"
 
 int main(int argc, char* argv[]) {
-    QApplication app(argc, argv);  // Создание экземпляра QApplication
+    QApplication app(argc, argv);  // Г‘Г®Г§Г¤Г Г­ГЁГҐ ГЅГЄГ§ГҐГ¬ГЇГ«ГїГ°Г  QApplication
 
-    MainWindow mainWindow;         // Создание экземпляра главного окна
-    mainWindow.setWindowTitle("Graph Plotter like Desmos");  // Задание заголовка окна
-    mainWindow.show();             // Отображение главного окна
+    MainWindow mainWindow;         // Г‘Г®Г§Г¤Г Г­ГЁГҐ ГЅГЄГ§ГҐГ¬ГЇГ«ГїГ°Г  ГЈГ«Г ГўГ­Г®ГЈГ® Г®ГЄГ­Г 
+    mainWindow.setWindowTitle("Desmo");  // Г‡Г Г¤Г Г­ГЁГҐ Г§Г ГЈГ®Г«Г®ГўГЄГ  Г®ГЄГ­Г 
+    mainWindow.show();             // ГЋГІГ®ГЎГ°Г Г¦ГҐГ­ГЁГҐ ГЈГ«Г ГўГ­Г®ГЈГ® Г®ГЄГ­Г 
 
-    return app.exec();             // Запуск главного цикла обработки событий
+    return app.exec();             // Г‡Г ГЇГіГ±ГЄ ГЈГ«Г ГўГ­Г®ГЈГ® Г¶ГЁГЄГ«Г  Г®ГЎГ°Г ГЎГ®ГІГЄГЁ Г±Г®ГЎГ»ГІГЁГ©
 }
