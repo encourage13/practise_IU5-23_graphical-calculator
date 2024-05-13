@@ -1,59 +1,48 @@
 #include "Functions.h"
-#include "Logo/Logo.h"
-#include "Irr/Irr.h"
-#include "Indct/Indct.h"
-#include "Trig/Trig.h"
-#include "Degree/Degree.h"
+#include "Logo.h"
+#include "Irr.h"
+#include "Indct.h"
+#include "Trig.h"
+#include "Degree.h"
 using namespace std;
 Functions* Functions::Create(std::pair<std::string, std::string> pa_el, bool sign) {
 	Functions* object = nullptr;
 	try {
-		string mas[] = { "sin","arcsin","arctg","arcctg","arccos","cos","tg","ctg" };
-		bool flag = false;
-		bool flag1 = false;
-		for (const string& element : mas) {
-			if (element == pa_el.first) {
-				flag = true;
-				break;
-			}
-		}
-		for (auto element = pa_el.second.begin(); element != pa_el.second.end(); element++) {
-			if (*element == '^') {
-				flag1 = true;
-				break;
-			}
-		}
 		if (pa_el.first.compare(0, 3, "log", 0, 3) == 0) {
-			cout << "Logo" << endl;
-			object = new Logo(pa_el.second, sign);
+			std::cout << "Logo" << std::endl;
+			return object = new Logo(pa_el.second, sign);
 		}
 		else if (pa_el.first.compare(0, 1, "x", 0, 1) == 0) {
-			auto it = pa_el.second.begin();
-			if (*it == '(') {
-				cout << "IRR" << endl;
-				object = new Irr(pa_el.second, sign);
+			if (pa_el.second.front() == '(') {
+				std::cout << "IRR" << std::endl;
+				return object = new Irr(pa_el.second, sign);
 			}
 			else {
-				cout << "Stepennaya" << endl;
-				object = new Degree(pa_el.second, sign);
+				std::cout << "Stepennaya" << std::endl;
+				return object = new Degree(pa_el.second, sign);
 			}
 		}
-		else if (flag) {
-			cout << "TRIG" << endl;
-			object = new Trig(pa_el.second, sign);
+		else if (TrigFunction(pa_el.first)) {
+			std::cout << "TRIG" << std::endl;
+			return object = new Trig(pa_el.second, sign);
 		}
-		else if (flag1) {
-			cout << "Pokazatelnaya" << endl;
-			object = new Indct(pa_el.second, sign);
+		else if (pa_el.second.find('^') != std::string::npos) {
+			std::cout << "Pokazatelnaya" << std::endl;
+			return object = new Indct(pa_el.second, sign);
 		}
 		else {
 			return nullptr;
 		}
 	}
-	catch (invalid_argument& e) {
-		cerr << "������: " << e.what() << endl;
+	catch (const std::invalid_argument& e) {
+		std::cerr << "Invalid argument: " << e.what() << std::endl;
+		return nullptr;
 	}
-	return object;
+}
+
+bool Functions::TrigFunction(const std::string& func) {
+	static const std::vector<std::string> trigFunctions = { "sin", "arcsin", "arctg", "arcctg", "arccos", "cos", "tg", "ctg" };
+	return std::find(trigFunctions.begin(), trigFunctions.end(), func) != trigFunctions.end();
 }
 Functions::~Functions() {}
 void Functions::set(string func) {
@@ -74,20 +63,7 @@ void Functions::set(string func) {
 		}
 	}
 }
-double Functions::SumValue() {
-	double value = 0;
-	for (auto pa_el : this->sum_value) {
-		if (pa_el.second == false) {
-			pa_el.first *= -1;
-		}
-		value += pa_el.first;
-	}
-	return value;
-}
 void Functions::Casting(string func) {
-	setlocale(LC_ALL, "RUS");
-	/*string str;
-	getline(std::cin, str);*/
 	bool sign;
 	vector<string> elements = this->Split(func);
 	for (const auto& element : elements) {
@@ -115,7 +91,7 @@ void Functions::Casting(string func) {
 		}
 	}
 	auto result1 = detectMathFunction(elements[0]);
-	cout << "�������� �������: " << result1.first << ", ���������: " << result1.second << endl;
+	cout << "Function name: " << result1.first << ", Expression: " << result1.second << endl;
 }
 vector<string> Functions::Split(const string& expression) {
 	vector<string> elements;
@@ -136,7 +112,7 @@ pair<string, string> Functions::detectMathFunction(const string& str) {
 		return make_pair(match.str(), str);
 	}
 	else {
-		return make_pair("�� �������", "�������������� ������� �� ������� ��� �� ������������� ������ �������");
+		return make_pair("Не найдено", "Математическая функция не найдена или не соответствует общему шаблону");
 	}
 }
 string Functions::Defi(string func) {
@@ -148,7 +124,7 @@ string Functions::Defi(string func) {
 		return argument;
 	}
 	else {
-		return "�� ������� ������� �������� �� �������.";
+		return "Не удалось извлечь аргумент из функции.";
 	}
 }
 double Functions::Calculate(double x, string func, int size) {
@@ -161,7 +137,7 @@ double Functions::Calculate(double x, string func, int size) {
 	if (isdigit(func[0])) {
 		bool flag = true;
 		for (int i = 0; i < size; i++) {
-			if (!isdigit(func[i]) && (func[i] != '.' && func[i] != ',')) {
+			if (!isdigit(func[i]) && (func[i] != '.'&& func[i] != ',')) {
 				flag = false;
 				break;
 			}
@@ -216,8 +192,7 @@ double Functions::Calculate(double x, string func, int size) {
 			}
 			i--;
 		}
-		//string mas = "*/^)";
-		if ((func[i] == 'x' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')')) || (func[i] == 'e' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')')) || (isdigit(func[i]) && ((func[i + 1] != '.' && func[i + 1] != ',') && func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')' && !isdigit(func[i + 1]))) || (func[i] == ')' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')' && i != size - 1))) {
+		if ((func[i] == 'x' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')')) || (func[i] == 'e' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')')) || (isdigit(func[i]) && ((func[i + 1] != '.' && func[i+1]!=',') && func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')' && !isdigit(func[i + 1]))) || (func[i] == ')' && (func[i + 1] != '*' && func[i + 1] != '/' && func[i + 1] != '^' && func[i + 1] != ')' && i != size - 1))) {
 			return Calculate(x, &func[0], i + 1) * Calculate(x, &func[i + 1], size - i - 1);
 		}
 	}
@@ -226,7 +201,7 @@ double Functions::Calculate(double x, string func, int size) {
 			if (func[i + 1] != '(') {
 				int j = 0;
 				for (j = i + 1; j < size; j++) {
-					if (!isdigit(func[j]) && (func[j] != '.' && func[j] != ',')) {
+					if (!isdigit(func[j]) && (func[j] != '.' && func[j]!=',')) {
 						break;
 					}
 				}
@@ -275,11 +250,29 @@ double Functions::Calculate(double x, string func, int size) {
 	if (func[0] == 'a' && func[1] == 'b' && func[2] == 's') {
 		return abs(Calculate(x, &func[3], size - 3));
 	}
+	return 0;
 }
-vector<Cord> Get(string func) {
-	Functions* p = Functions::Create(make_pair("log", "loge(2x)"), false);
+
+std::vector<std::pair<double, double>> Get(string func) {
+	Functions* p = Functions::Create(std::make_pair("log", "loge(2x)"), false);
 	p->set(func);
-	vector<Cord> vec1;
-	auto pa_el = p->coordinates[0];
-	return pa_el.first;
+	std::map<double, double> sum_map;
+	for (const auto& coord : p->coordinates) {
+		bool flag = coord.second;
+		for (const auto& elements : coord.first) {
+			if (flag) {
+				sum_map[elements.x] += elements.y;
+			}
+			else {
+				sum_map[elements.x] -= elements.y;
+			}
+		}
+	}
+	std::vector<std::pair<double, double>> result;
+	for (const auto& pair : sum_map) {
+		result.push_back(std::make_pair(pair.first, pair.second));
+	}
+	delete p;
+	return result;
 }
+

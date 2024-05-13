@@ -11,15 +11,14 @@ void Degree::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) 
 	auto it = this->func.begin();
 	if (*it == '|') {
 		flag = true;
-		it++;
-		for (it; *it != '|'; it++) {
-			argument += *it;
-		}
+		auto next_lock = std::find(std::next(it), this->func.end(), '|');
+		argument.assign(std::next(it), next_lock);
+		it = next_lock;
 	}
 	else { argument = this->func; }
-	if (flag) { cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " << argument << endl; }
-	else { cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << argument << endl; }
-	for (double x = A; x < B; x += 0.125) {
+	if (flag) { cout << "Аргумент модуля: " << argument << endl; }
+	else { cout << "Аргумент степенной: " << argument << endl; }
+	for (double x = A; x < B; x += C) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
 		if (flag) {
@@ -45,10 +44,4 @@ void Degree::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) 
 		}
 	}
 	coordinates.push_back({ this->cd,this->sign });
-	/*for (auto pa_el : coordinates) {
-		std::vector<Cord> vec1 = pa_el.first;
-		for (auto elem : vec1) {
-			std::cout << elem.x << ' ';
-		}
-	}*/
 }

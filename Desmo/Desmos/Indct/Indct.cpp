@@ -8,16 +8,13 @@ Indct::Indct(string func, bool sign) {
 void Indct::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	bool flag = false;
 	auto it = this->func.begin();
-	if (*it == '1' && *(it + 1) != '.' && *(it + 1) != ',') { return; }
+	if (*it == '1' && (*(it + 1) == '\0' || *(it + 1) == '^')) { return; }
 	if (*it == '-') { return; }
 	string argument = this->Defi(this->func);
-	cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << argument << endl;
+	cout << "Аргумент показательной: " << argument << endl;
 	if (*it == 'e') { flag = true; }
-	string osn;
-	for (it; *it != '^'; it++) {
-		osn += *it;
-	}
-	for (double x = A; x < B; x += 0.125) {
+	string osn(it, find(it, this->func.end(), '^'));
+	for (double x = A; x < B; x += C) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
 		if (flag == false) {
@@ -45,10 +42,4 @@ void Indct::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 		}
 	}
 	coordinates.push_back({ this->cd,this->sign });
-	/*for (auto pa_el : coordinates) {
-		std::vector<Cord> vec1 = pa_el.first;
-		for (auto elem : vec1) {
-			std::cout << elem.x << ' ';
-		}
-	}*/
 }

@@ -13,7 +13,7 @@ double Trig::acot(double x) {
 }
 void Trig::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	string argument = this->Defi(this->func);
-	cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << argument << endl;
+	cout << "Аргумент тригонометрической: " << argument << endl;
 	string osn;
 	for (auto it = this->func.begin(); it != this->func.end(); it++) {
 		if (*it == '(') {
@@ -86,7 +86,7 @@ void Trig::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 		}
 	}
 	if (osn == "tg") {
-		for (double x = A; x < B; x += 0.125) {
+		for (double x = A; x < B; x += C) {
 			double y = Calculate(x, argument, argument.size());
 			Cord ss;
 			double y1 = tan(y);
@@ -116,11 +116,6 @@ void Trig::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 		}
 	}
 	coordinates.push_back({ this->cd,this->sign });
-	/*for (auto pa_el : coordinates) {
-		std::vector<Cord> vec1 = pa_el.first;
-		for (auto elem : vec1) {
-			std::cout << elem.x << ' ';
-		}
-	}*/
 }
+
 

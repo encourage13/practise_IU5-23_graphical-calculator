@@ -10,23 +10,19 @@ Logo::Logo(string func, bool sign) {
 	this->sign = sign;
 }
 double Logo::log_base_a(double x, double a) {
-	// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
 	return std::log(x) / std::log(a);
 }
 void Logo::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	bool flag = false;
 	auto it = this->func.begin();
 	it += 3;
-	if (*it == '1' && *(it + 1) != '.' && *(it + 1) != ',') { return; }
+	if (*it == '1' && (*(it + 1) == '\0' || *(it + 1) == '(')) { return; }
 	if (*it == '0') { return; }
 	if (*it == 'e') flag = true;
-	string osn;
-	for (it; *it != '('; it++) {
-		osn += *it;
-	}
+	string osn(it, find(it, this->func.end(), '('));
 	string argument = this->Defi(this->func);
-	cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << argument << endl;
-	for (double x = A; x < B; x += 0.1) {
+	cout << "Аргумент логарифма: " << argument << endl;
+	for (double x = A; x < B; x += C) {
 		double y = Calculate(x, argument, argument.size());
 		if (y > 0) {
 			Cord ss;
@@ -56,11 +52,4 @@ void Logo::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 		}
 	}
 	coordinates.push_back({ this->cd,this->sign });
-	/*for (auto pa_el : coordinates) {
-		std::vector<Cord> vec1 = pa_el.first;
-		for (auto elem : vec1) {
-			std::cout << elem.x << ' ';
-		}
-	}*/
-
 }

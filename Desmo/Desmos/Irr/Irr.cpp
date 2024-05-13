@@ -6,9 +6,8 @@ Irr::Irr(string func, bool sign) {
 	this->sign = sign;
 }
 void Irr::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
-	bool flag = false;
 	string argument = this->Defi(this->func);
-	cout << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << argument << endl;
+	cout << "Аргумент иррациональной: " << argument << endl;
 	int index = 0;
 	for (int i = 0; i != this->func.size(); i++) {
 		if (this->func[i] == '^') {
@@ -16,11 +15,8 @@ void Irr::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 		}
 	}
 	index++;
-	string save;
-	for (index; index != this->func.size(); index++) {
-		save += this->func[index];
-	}
-	for (double x = A; x < B; x += 0.125) {
+	string save = this->func.substr(index);
+	for (double x = A; x < B; x += C) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
 		double a = stod(save);
@@ -40,10 +36,4 @@ void Irr::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 		}
 	}
 	coordinates.push_back({ this->cd,this->sign });
-	/*for (auto pa_el : coordinates) {
-		std::vector<Cord> vec1 = pa_el.first;
-		for (auto elem : vec1) {
-			std::cout << elem.x << ' ';
-		}
-	}*/
 }

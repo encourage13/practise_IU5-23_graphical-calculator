@@ -1,5 +1,5 @@
 #pragma once
-#include "Functions/Functions.h"
+#include "Functions.h"
 class Trig : public Functions {
 public:
 	Trig(std::string func, bool sign);

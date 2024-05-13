@@ -1,5 +1,5 @@
 #pragma once
-#include "Functions/Functions.h"
+#include "Functions.h"
 
 class Logo : public Functions {
 public:
@@ -12,5 +12,5 @@ private:
 	std::vector<Cord> cd;
 	std::string func;
 	bool sign;
-	friend std::vector<Cord> Get(std::string func);
+	friend std::vector<std::pair<double, double>> Get(std::string func);
 };
