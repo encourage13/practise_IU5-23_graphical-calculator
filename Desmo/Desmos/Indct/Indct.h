@@ -1,5 +1,5 @@
 #pragma once
-#include "Functions.h"
+#include "Functions/Functions.h"
 class Indct : public Functions {
 public:
 	Indct(std::string func, bool sign);
