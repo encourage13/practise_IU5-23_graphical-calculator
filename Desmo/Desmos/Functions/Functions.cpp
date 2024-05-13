@@ -1,9 +1,9 @@
-#include "Functions.h"
-#include "Logo.h"
-#include "Irr.h"
-#include "Indct.h"
-#include "Trig.h"
-#include "Degree.h"
+#include "Functions/Functions.h"
+#include "Logo/Logo.h"
+#include "Irr/Irr.h"
+#include "Indct/Indct.h"
+#include "Trig/Trig.h"
+#include "Degree/Degree.h"
 using namespace std;
 Functions* Functions::Create(std::pair<std::string, std::string> pa_el, bool sign) {
 	Functions* object = nullptr;
