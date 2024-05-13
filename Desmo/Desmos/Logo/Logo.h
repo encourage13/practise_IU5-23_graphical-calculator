@@ -1,5 +1,5 @@
 #pragma once
-#include "Functions.h"
+#include "Functions/Functions.h"
 
 class Logo : public Functions {
 public:
