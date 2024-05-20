@@ -1,10 +1,34 @@
-#include "Functions/Functions.h"
-#include "Logo/Logo.h"
-#include "Irr/Irr.h"
-#include "Indct/Indct.h"
-#include "Trig/Trig.h"
-#include "Degree/Degree.h"
+#include "Functions.h"
+#include "Logo.h"
+#include "Irr.h"
+#include "Indct.h"
+#include "Trig.h"
+#include "Degree.h"
+#include "Hyperbolic.h"
 using namespace std;
+
+GlobalVariables* GlobalVariables::getInstance() {
+	if (!instance) {
+		instance = new GlobalVariables();
+	}
+	return instance;
+}
+void GlobalVariables::setA(double A) {
+	this->A = A;
+}
+
+void GlobalVariables::setB(double B) {
+	this->B = B;
+}
+
+void GlobalVariables::setC(double C) {
+	this->C = C;
+}
+
+GlobalVariables* GlobalVariables::instance = nullptr;
+
+GlobalVariables::GlobalVariables() {}
+
 Functions* Functions::Create(std::pair<std::string, std::string> pa_el, bool sign) {
 	Functions* object = nullptr;
 	try {
@@ -26,6 +50,10 @@ Functions* Functions::Create(std::pair<std::string, std::string> pa_el, bool sig
 			std::cout << "TRIG" << std::endl;
 			return object = new Trig(pa_el.second, sign);
 		}
+		else if (HyperbolicFunction(pa_el.first)) {
+			std::cout << "HYPERBOLIC" << std::endl;
+			return object = new Hyperbolic(pa_el.second, sign);
+		}
 		else if (pa_el.second.find('^') != std::string::npos) {
 			std::cout << "Pokazatelnaya" << std::endl;
 			return object = new Indct(pa_el.second, sign);
@@ -41,8 +69,12 @@ Functions* Functions::Create(std::pair<std::string, std::string> pa_el, bool sig
 }
 
 bool Functions::TrigFunction(const std::string& func) {
-	static const std::vector<std::string> trigFunctions = { "sin", "arcsin", "arctg", "arcctg", "arccos", "cos", "tg", "ctg" };
+	static const std::vector<std::string> trigFunctions = { "sin", "arcsin", "arctg", "arcctg", "arccos", "cos", "tg", "ctg"};
 	return std::find(trigFunctions.begin(), trigFunctions.end(), func) != trigFunctions.end();
+}
+bool Functions::HyperbolicFunction(const std::string& func) {
+	static const std::vector<std::string> hyperFunctions = { "sinh", "asinh", "atanh", "coth", "acoth", "cosh", "acosh" };
+	return std::find(hyperFunctions.begin(), hyperFunctions.end(), func) != hyperFunctions.end();
 }
 Functions::~Functions() {}
 void Functions::set(string func) {
@@ -247,9 +279,13 @@ double Functions::Calculate(double x, string func, int size) {
 	if (func[0] == 't' && func[1] == 'g') {
 		return tan(Calculate(x, &func[2], size - 2));
 	}
+	if (func[0] == 's' && func[1] == 'h') {
+		return sinh(Calculate(x, &func[2], size - 2));
+	}
 	if (func[0] == 'a' && func[1] == 'b' && func[2] == 's') {
 		return abs(Calculate(x, &func[3], size - 3));
 	}
+
 	return 0;
 }
 

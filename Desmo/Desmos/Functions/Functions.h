@@ -9,10 +9,6 @@
 #include <cmath>
 #include <map>
 
-#define A -10
-#define B 10.125
-#define C 0.125
-
 struct Cord {
 	double x;
 	double y;
@@ -22,6 +18,25 @@ class Indct;
 class Trig;
 class Degree;
 class Irr;
+class GlobalVariables;
+
+class GlobalVariables {
+private:
+	static GlobalVariables* instance;
+	GlobalVariables();
+
+public:
+
+	double A;
+	double B;
+	double C;
+
+	static GlobalVariables* getInstance();
+	void setA(double A);
+	void setB(double B);
+	void setC(double C);
+};
+
 
 class Functions {
 protected:
@@ -29,6 +44,7 @@ protected:
 	std::vector<std::pair<double, bool>> sum_value;
 	std::vector<std::pair<std::vector<Cord>, bool>> coordinates;
 	friend std::vector<std::pair<double, double>> Get(std::string func);
+	
 public:
 	static Functions* Create(std::pair<std::string, std::string> pa_el, bool sign);
 	virtual void Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) = 0;
@@ -40,6 +56,8 @@ public:
 	std::string Defi(std::string func);
 	double Calculate(double x, std::string func, int size);
 	static bool TrigFunction(const std::string& func);
+	static bool HyperbolicFunction(const std::string& func);
+	
 };
 std::vector<std::pair<double, double>> Get(std::string func);
 
