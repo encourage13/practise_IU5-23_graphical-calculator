@@ -14,7 +14,7 @@ void Indct::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	cout << "Аргумент показательной: " << argument << endl;
 	if (*it == 'e') { flag = true; }
 	string osn(it, find(it, this->func.end(), '^'));
-	for (double x = A; x < B; x += C) {
+	for (double x = -10; x < 10.125; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
 		if (flag == false) {

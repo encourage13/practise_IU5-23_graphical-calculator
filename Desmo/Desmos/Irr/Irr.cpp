@@ -16,7 +16,7 @@ void Irr::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	}
 	index++;
 	string save = this->func.substr(index);
-	for (double x = A; x < B; x += C) {
+	for (double x = -10; x < 10.125; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
 		double a = stod(save);

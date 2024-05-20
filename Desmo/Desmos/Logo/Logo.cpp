@@ -22,7 +22,7 @@ void Logo::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
 	string osn(it, find(it, this->func.end(), '('));
 	string argument = this->Defi(this->func);
 	cout << "Аргумент логарифма: " << argument << endl;
-	for (double x = A; x < B; x += C) {
+	for (double x = -10; x < 10.125; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		if (y > 0) {
 			Cord ss;

@@ -1,4 +1,5 @@
 #include "Degree.h"
+
 using namespace std;
 
 Degree::Degree(string func, bool sign) {
@@ -6,6 +7,7 @@ Degree::Degree(string func, bool sign) {
 	this->sign = sign;
 }
 void Degree::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) {
+	
 	string argument;
 	bool flag = false;
 	auto it = this->func.begin();
@@ -18,7 +20,7 @@ void Degree::Find(std::vector<std::pair<std::vector<Cord>, bool>>& coordinates) 
 	else { argument = this->func; }
 	if (flag) { cout << "Аргумент модуля: " << argument << endl; }
 	else { cout << "Аргумент степенной: " << argument << endl; }
-	for (double x = A; x < B; x += C) {
+	for (double x = -10; x < 10.125; x += 0.125) {
 		double y = Calculate(x, argument, argument.size());
 		Cord ss;
 		if (flag) {
