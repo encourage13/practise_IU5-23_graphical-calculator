@@ -3,32 +3,77 @@
 #include <QPainter>
 #include <QPen>
 #include <QScrollBar>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QGraphicsEllipseItem>
+#include <QDebug>
+#include <QColor>
+#include <cstdlib>
+#include <ctime>
+#include <set>
 
+struct QColorCompare {
+    bool operator()(const QColor& lhs, const QColor& rhs) const {
+        if (lhs.red() != rhs.red()) return lhs.red() < rhs.red();
+        if (lhs.green() != rhs.green()) return lhs.green() < rhs.green();
+        return lhs.blue() < rhs.blue();
+    }
+};
 GraphWidget::GraphWidget(QWidget* parent) : QGraphicsView(parent) {
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     scene = new QGraphicsScene(this);
     setScene(scene);
-    buffer = QPixmap(1400, 1000); // Предполагаем начальный размер буфера
+    buffer = QPixmap(render_height, render_width);
     buffer.fill(Qt::white);
     bufferItem = new QGraphicsPixmapItem();
     scene->addItem(bufferItem);
     prepareBuffer();
     setDragMode(QGraphicsView::NoDrag);
 
-    qreal initialScale = 4;  // масштаб 
+    qreal initialScale = 4; 
     setTransform(QTransform::fromScale(initialScale, initialScale));
+    centerOn(QPointF(render_height/2, render_width/2));
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    
 }
 
+QColor generateRandomColor(const std::set<QColor, QColorCompare>& usedColors) {
+    QColor color;
+    do {
+        int r = std::rand() % 256;
+        int g = std::rand() % 256;
+        int b = std::rand() % 256;
+        color.setRgb(r, g, b);
+    } while ((color == Qt::black || color == Qt::white || (std::abs(color.red() - color.green()) < 10 && std::abs(color.green() - color.blue()) < 10)) || usedColors.count(color) > 0);
+    return color;
+}
+
+
 void GraphWidget::drawGraph(const std::vector<QPointF>& points) {
+    static std::set<QColor, QColorCompare> usedColors;
+    static bool initialized = false;
+    if (!initialized) {
+        std::srand(std::time(0));
+        initialized = true;
+    }
+
+    QColor currentColor = generateRandomColor(usedColors);
+    usedColors.insert(currentColor);
+
     QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
-    QPen pen(Qt::blue, 1.5); 
+
+    QPen pen(currentColor, 1.5);
     pen.setCapStyle(Qt::RoundCap);
     painter.setPen(pen);
+
     qreal centerX = buffer.width() / 2;
     qreal centerY = buffer.height() / 2;
-    int unit = 10;  // Размер одной клетки в пикселях, каждая клетка соответствует 1 на графике
+    int unit = 10; 
     qreal offset = 0.5;
+
     if (points.size() > 1) {
         for (size_t i = 0; i < points.size() - 1; ++i) {
             QPointF startPoint(centerX + points[i].x() * unit + offset, centerY - points[i].y() * unit + offset);
@@ -45,7 +90,6 @@ void GraphWidget::drawGraph(const std::vector<QPointF>& points) {
         scene->addItem(bufferItem);
     }
 }
-
 
 
 void GraphWidget::prepareBuffer() {
@@ -80,7 +124,7 @@ void GraphWidget::drawGrid(QPainter* painter) {
     painter->setPen(pen);
     int centerX = buffer.width() / 2;
     int centerY = buffer.height() / 2;
-    int step = 10;  // Размер клетки в пикселях, каждая клетка соответствует 1 на графике
+    int step = 10; 
 
 
     for (int x = centerX % step; x < buffer.width(); x += step) {
@@ -120,8 +164,7 @@ void GraphWidget::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void GraphWidget::wheelEvent(QWheelEvent* event) {
-    qreal scaleFactor = 1.1;  // Фактор масштабирования
-    // Определяем, увеличивать или уменьшать масштаб
+    qreal scaleFactor = 1.1;  
     if (event->angleDelta().y() > 0) {
         scale(scaleFactor, scaleFactor);
     }
