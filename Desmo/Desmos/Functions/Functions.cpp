@@ -293,14 +293,15 @@ std::vector<std::pair<double, double>> Get(string func) {
 	Functions* p = Functions::Create(std::make_pair("log", "loge(2x)"), false);
 	p->set(func);
 	std::map<double, double> sum_map;
+	double value = p->SumValue();
 	for (const auto& coord : p->coordinates) {
 		bool flag = coord.second;
 		for (const auto& elements : coord.first) {
 			if (flag) {
-				sum_map[elements.x] += elements.y;
+				sum_map[elements.x] += elements.y + value;
 			}
 			else {
-				sum_map[elements.x] -= elements.y;
+				sum_map[elements.x] -= (elements.y + value);
 			}
 		}
 	}
