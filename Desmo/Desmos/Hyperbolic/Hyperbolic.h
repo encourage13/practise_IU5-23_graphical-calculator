@@ -1,5 +1,5 @@
 #pragma once
-#include "Functions.h"
+#include "Functions/Functions.h"
 class Hyperbolic : public Functions {
 public:
     Hyperbolic(std::string func, bool sign);

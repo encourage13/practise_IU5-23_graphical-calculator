@@ -12,6 +12,7 @@ set(${project}_SOURCES
     Irr/Irr.cpp
     Logo/Logo.cpp
     Trig/Trig.cpp
+    Hyperbolic/Hyperbolic.cpp
 )
 
 # Список заголовочных файлов библиотеки
@@ -22,6 +23,7 @@ set(${project}_HEADERS
     Irr/Irr.h
     Logo/Logo.h
     Trig/Trig.h
+    Hyperbolic/Hyperbolic.h
 )
 
 set(${project}_SOURCE_LIST
